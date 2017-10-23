@@ -21,6 +21,7 @@ const code = `
   async function foo() {
     const a = libExample.bar(5);
     const b = libExample.baz(y).process();
+    const untouched = libExample.qwerty();
     const c = f(x);
   }
 `;
@@ -34,6 +35,7 @@ const expected = `
   async function foo() {
     const a = await libExample.bar(5);
     const b = (await libExample.baz(y)).process();
+    const untouched = libExample.qwerty();
     const c = await f(x);
   }
 `
@@ -41,4 +43,4 @@ const expected = `
 console.log(results === expected) // true
 ```
 
-Note that awaitify only analyzes the code statically, i.e. more advanced expressions than property chains are not possible to give as the second argument.
+Note that awaitify only analyzes the code statically, i.e. more advanced expressions than property chains are not possible to give as the second argument. In the example above, there is no way to get at the `process` function, for example.
