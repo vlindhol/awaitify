@@ -8,7 +8,7 @@ Ever needed to add the `await` keyword to a lot of functions in a big bunch of c
   (await lib.f(x)).g(y)
 ```
 
-awaitify statically analyses your code and inserts `await` in a correct manner, for the specified function calls.
+awaitify statically analyses your code and inserts `await` in a correct manner, for the specified function calls. Note that it does not preserve indentation or syntax, it uses the default settings from `escodegen`.
 
 This package is mainly intended for use by the `gulp-awaitify` package.
 

@@ -1,6 +1,6 @@
 const esprima = require('esprima');
 const escodegen = require('escodegen');
-const walk = require('esprima-walk');
+const esPrimaWalk = require('esprima-walk');
 const _ = require('lodash');
 
 /**
@@ -17,9 +17,9 @@ function pathMatchesAst(ast, path) {
     return false;
   }
   if (ast.type === 'MemberExpression') {
-    if (path.length > 1 && matches(ast.object, [path[0]])) {
+    if (path.length > 1 && pathMatchesAst(ast.object, [path[0]])) {
       // We still have a chance of matching, go one step down in object property chain
-      return matches(ast.property, path.slice(1));
+      return pathMatchesAst(ast.property, path.slice(1));
     }
   }
   return false;
@@ -50,8 +50,9 @@ function awaitify(code, funcPaths) {
   }
 
   const toBeReplaced = [];
-  walk(ast, node => {
+  esPrimaWalk.walkAddParent(ast, node => {
     if (node.type !== 'CallExpression') return;
+    if (node.parent.type === 'AwaitExpression') return;
 
     for (let i = 0; i < splitFuncs.length; i += 1) {
       if (pathMatchesAst(node.callee, splitFuncs[i])) {
