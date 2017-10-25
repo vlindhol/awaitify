@@ -1,6 +1,6 @@
 {
   "name": "node-awaitify",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Parse Javascript and insert await in front of a given list of functions",
   "main": "index.js",
   "readme": "README.md",
